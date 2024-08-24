@@ -45,7 +45,9 @@ export const Game = () => {
                     alignItems: 'center',
                     textAlign: 'center',
                 }}>
-                    <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>{ctx.quote?.quote}</Typography>
+                    {ctx.quote ? (<Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>{ctx.quote.quote}</Typography>) : (
+                        <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>No quote available</Typography>
+                    )}
                     {answer && (
                         <>
                             <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>{ctx.quote?.character}</Typography>
@@ -73,8 +75,10 @@ export const Game = () => {
                     }}
                         onClick={() => nextQuote()}>
                         <Typography sx={{ paddingLeft: 1 }}>Next Quote</Typography>
-                        <NavigateNextIcon/>
+                        <NavigateNextIcon />
                     </Button>)}
+                    {ctx.quotes.length}
+                    {ctx.quote && ('OK')}
                 </Grid>
             </Grid>
         </Box>

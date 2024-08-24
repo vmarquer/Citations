@@ -8,10 +8,10 @@ import { HomeButton } from './components/common/HomeButton';
 function App() {
   return (
     <div>
-      <Router>
+      <Router basename="/Citations">
         <HomeButton/>
         <Routes>
-          <Route path="" element={<Navigate to="home" />} />
+          <Route path="" element={<Navigate to="/home" />} />
           <Route path="/home" element={<AppContextProvider><Home /></AppContextProvider>} />
           <Route path="/game" element={<AppContextProvider><Game /></AppContextProvider>} />
         </Routes>
