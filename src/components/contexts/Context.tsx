@@ -1,6 +1,6 @@
 import React, { createContext, PropsWithChildren, useEffect, useState } from "react";
-import { Context } from '../../models/context';
-import { Quote } from "../../models/quote";
+import { Context } from '../../utils/context';
+import { Quote } from "../../utils/quote";
 
 export const AppContext = createContext<Context>(null!)
 

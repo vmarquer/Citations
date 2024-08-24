@@ -5,16 +5,13 @@ import { AppContext } from '../contexts/Context';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { findColor } from '../../utils/colors';
 import { getFontSize } from '../../utils/fontsizes';
-import { useNavigate } from 'react-router-dom';
 
-export const Home = () => {
+export const Game = () => {
     const ctx = useContext(AppContext);
-    const navigate = useNavigate();
 
     return (
         <Box sx={{
             color: findColor('black'),
-            backgroundColor: findColor('background'),
             minHeight: "100vh",
             display: "flex",
             justifyContent: "center",
@@ -23,7 +20,7 @@ export const Home = () => {
             <Grid item xs={12}>
                 <Paper sx={{
                     width: '50vw',
-                    height: '40vh',
+                    height: '35vh',
                     padding: 3,
                     display: 'flex',
                     flexDirection: 'column',
@@ -31,14 +28,13 @@ export const Home = () => {
                     alignItems: 'center',
                     textAlign: 'center',
                 }}>
-                    <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>Jeu des citations</Typography>
+                    <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>Game</Typography>
                     <Button sx={{
                         color: findColor('black'),
                         display: "flex",
                         justifyContent: "center",
                         border: `1px solid ${findColor('black')}`
-                    }}
-                    onClick={()=> navigate('/game')}>
+                    }}>
                         <PlayCircleOutlineIcon />
                         <Typography sx={{ paddingLeft: 1 }}>START</Typography>
                     </Button>
