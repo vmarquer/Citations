@@ -1,29 +1,28 @@
 import React, { useContext, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, TextField, Typography } from '@mui/material';
 import { AppContext } from '../contexts/Context';
 import { findColor } from '../../utils/colors';
 import { getFontSize } from '../../utils/fontsizes';
 import { useNavigate } from 'react-router-dom';
 import { getImage } from '../../utils/image';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import ArticleIcon from '@mui/icons-material/Article';
+import Badge from '@mui/material/Badge';
 
 export const Game = () => {
     const ctx = useContext(AppContext);
     const navigate = useNavigate();
     const [answer, setAnswer] = useState<Boolean>(false);
-
-    const showAnswer = () => {
-        setAnswer(true);
-    }
+    const [userAnswer, setUserAnswer] = useState('');
 
     const getDifficultyColor = (difficulty: string) => {
         switch (difficulty) {
             case "1":
                 return "green"
             case "2":
-                return "orange"
+                return "yellow"
             case "3":
                 return "red"
             default:
@@ -31,12 +30,19 @@ export const Game = () => {
         }
     }
 
+    const checkAnswer = () => {
+        setAnswer(true);
+        ctx.updateGuessedQuotes(userAnswer);
+        ctx.updatePlayedQuotes(ctx.quote.movie);
+    };
+
     const nextQuote = () => {
         setAnswer(false);
         if (ctx.quotes.length === 0) {
             navigate('/home')
         }
         ctx.drawQuote();
+        setUserAnswer('');
     }
 
     return (
@@ -66,12 +72,15 @@ export const Game = () => {
                             top: 8,
                             right: 8,
                             display: 'flex',
+                            color: findColor('white'),
+                            backgroundColor: findColor(getDifficultyColor(ctx.quote.difficulty)),
+                            padding: 1,
+                            borderRadius: 2,
                         }}>
                             <Typography sx={{ fontSize: getFontSize('medium') }}>Difficulty</Typography>
                             <Typography sx={{
                                 fontSize: getFontSize('medium'),
                                 paddingLeft: 1,
-                                color: findColor(getDifficultyColor(ctx.quote.difficulty)),
                             }}>{ctx.quote.difficulty}</Typography>
                         </Grid>
                     )}
@@ -85,50 +94,67 @@ export const Game = () => {
                     </Grid>
                     {!answer ? (
                         ctx.quote && (<Typography sx={{ marginBottom: 3, fontSize: getFontSize('large') }}>"{ctx.quote.quote}"</Typography>)
-                    ) : ( 
+                    ) : (
                         ctx.quote && (
-                        <>
-                            <Grid sx={{
-                                position: 'absolute',
-                                top: '14vh',
-                                left: 25,
-                                display: 'flex',
-                            }}>
-                                {getImage(ctx.quote.image, 'auto', '42vh')}
+                            <Grid container spacing={2} sx={{ position: 'relative', top: '5vh' }}>
+                                <Grid item xs={4} sx={{ display: 'flex' }}>
+                                    {getImage(ctx.quote.image, 'auto', '42vh')}
+                                </Grid>
+                                <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', textAlign: 'left' }}>
+                                    <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote}"</Typography>
+                                    <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Movie: {ctx.quote.movie}</Typography>
+                                    {ctx.quote.character && (
+                                        <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Character: {ctx.quote.character}</Typography>
+                                    )}
+                                    {ctx.quote.actor && (
+                                        <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Actor: {ctx.quote.actor}</Typography>
+                                    )}
+                                </Grid>
                             </Grid>
-                            <Grid sx={{
-                                position: 'absolute',
-                                top: '14vh',
-                                left: '20vw',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'flex-start',
-                                textAlign: 'left',
-                            }}>
-                                <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote}"</Typography>
-                                <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Movie : {ctx.quote.movie}</Typography>
-                                {ctx.quote.character && (<Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Character : {ctx.quote.character}</Typography>)}
-                                {ctx.quote.actor && (<Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Actor : {ctx.quote.actor}</Typography>)}
-                            </Grid>
-                        </>
-                    ))}
+                        )
+                    )}
                 </Paper>
+                {!answer && (
+                    <Grid item xs={12} pt={1}>
+                        <Paper sx={{
+                            height: '8vh',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                            <Grid container spacing={2} sx={{ width: '100%', height: '100%', alignItems: 'center' }}>
+                                <Grid item xs={11}>
+                                    <TextField
+                                        rows={5}
+                                        variant="outlined"
+                                        fullWidth
+                                        value={userAnswer}
+                                        onChange={(e) => setUserAnswer(e.target.value)}
+                                        placeholder="Entrez votre réponse ici" />
+                                </Grid>
+                                <Grid item xs={1}>
+                                    <Button sx={{
+                                        color: findColor('black'),
+                                        padding: 1,
+                                        display: "flex",
+                                        width: '100%',
+                                        justifyContent: "center",
+                                        backgroundColor: findColor('white'),
+                                        border: `1px solid ${findColor('black')}`,
+                                        '&:hover': {
+                                            backgroundColor: findColor('white'),
+                                        }
+                                    }}
+                                        onClick={checkAnswer}>
+                                        <ArrowCircleRightIcon sx={{fontSize: '4vh'}} />
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Grid>
+                )}
                 <Grid item xs={12} pt={2} justifyContent="center" display="flex">
-                    {!answer ? (<Button sx={{
-                        color: findColor('black'),
-                        padding: 1,
-                        display: "flex",
-                        justifyContent: "center",
-                        backgroundColor: findColor('white'),
-                        border: `1px solid ${findColor('black')}`,
-                        '&:hover': {
-                            backgroundColor: findColor('white'),
-                        }
-                    }}
-                        onClick={() => showAnswer()}>
-                        <VisibilityIcon />
-                        <Typography sx={{ paddingLeft: 1 }}>Show Answer</Typography>
-                    </Button>) : (<Button sx={{
+                    {answer && (<Button sx={{
                         color: findColor('black'),
                         padding: 1,
                         display: "flex",

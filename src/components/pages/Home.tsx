@@ -28,8 +28,8 @@ export const Home = () => {
         }}>
             <Grid item xs={12}>
                 <Paper sx={{
-                    width: '50vw',
-                    height: '40vh',
+                    width: '40vw',
+                    height: '30vh',
                     padding: 4,
                     display: 'flex',
                     flexDirection: 'column',

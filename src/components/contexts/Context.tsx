@@ -2,7 +2,6 @@ import React, { createContext, PropsWithChildren, useEffect, useState } from "re
 import { Context } from '../../utils/context';
 import { Quote } from "../../utils/quote";
 import Papa, { ParseResult } from "papaparse";
-import { light } from "@mui/material/styles/createPalette";
 
 export const AppContext = createContext<Context>(null!)
 
@@ -18,12 +17,19 @@ const defaultQuote: Quote = {
 export const AppContextProvider = (props: PropsWithChildren<{}>) => {
   const [quote, setQuote] = useState<Quote>(defaultQuote)
   const [quotes, setQuotes] = useState<Quote[]>([])
+  const [playedQuotes, setPlayedQuotes] = useState<string[]>([])
+  const [guessedQuotes, setGuessedQuotes] = useState<string[]>([])
+  
 
   const contextValue: Context = {
     quote: quote,
     quotes: quotes,
+    playedQuotes: playedQuotes,
+    guessedQuotes: guessedQuotes,
     updateQuote: updateQuote,
     updateQuotes: updateQuotes,
+    updatePlayedQuotes: updatePlayedQuotes,
+    updateGuessedQuotes: updateGuessedQuotes,
     initializeQuotes: initializeQuotes,
     drawQuote: drawQuote,
   }
@@ -36,6 +42,14 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     setQuotes(quotes)
   }
 
+  function updatePlayedQuotes(quote: string): void {
+    setPlayedQuotes(prevState => [...prevState, quote]);
+  }
+
+  function updateGuessedQuotes(quote: string): void {
+    setGuessedQuotes(prevState => [...prevState, quote]);
+  }
+
   function initializeQuotes(): void {
     Papa.parse(`${process.env.PUBLIC_URL}/quotes.csv`, {
       header: false,
@@ -43,7 +57,6 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
       skipEmptyLines: true,
       delimiter: ";",
       complete: (results: ParseResult<string[]>) => {
-        console.log(results.data);
         setQuotes(results.data.map((line: string[]): Quote => ({
           quote: line[0] || '',
           movie: line[1] || '',
@@ -57,6 +70,8 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
         console.error("Error parsing CSV:", error);
       },
     });
+    setGuessedQuotes([]);
+    setPlayedQuotes([]);
   }
 
   function drawQuote(): void {

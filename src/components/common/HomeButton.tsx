@@ -14,21 +14,20 @@ export const HomeButton = () => {
     return (
         <Box sx={{
             position: 'fixed',
-            top: 20,
-            left: 20,
-            padding: 2,
+            top: 30,
+            left: 30,
             color: findColor('black'),
             borderRadius: 1,
             zIndex: 1000,
         }}>
             <Button sx={{
-                width: '40px',
-                height: '40px',
+                width: '50px',
+                height: '60px',
                 color: findColor('black'),
                 display: "flex",
                 justifyContent: "center",
                 backgroundColor: findColor('white'),
-                border: `1px solid ${findColor('black')}`,
+                borderRadius: '50%',
                 '&:hover': {
                     backgroundColor: findColor('white'),
                 }
