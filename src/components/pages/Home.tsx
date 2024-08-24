@@ -43,11 +43,6 @@ export const Home = () => {
                         <Typography sx={{ paddingLeft: 1 }}>START</Typography>
                     </Button>
                 </Paper>
-                {ctx.quotes.length > 0 ? (
-                    ctx.quotes.map((quote, index) => (
-                        <Typography key={index}>{quote.quote}</Typography>))) : (
-                    <Typography>No quotes available.</Typography>
-                )}
             </Grid>
         </Box>
     );
