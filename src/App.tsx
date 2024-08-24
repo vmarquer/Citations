@@ -1,4 +1,4 @@
-import { Navigate, Route, HashRouter as Router, Routes } from 'react-router-dom';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 import { AppContextProvider } from './components/contexts/Context';
 import { Home } from './components/pages/Home';
