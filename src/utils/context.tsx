@@ -1,7 +1,7 @@
 import { Quote } from "./quote";
 
 export interface Context {
-    quote: Quote |undefined
+    quote: Quote,
     quotes: Quote[],
     updateQuote: (quote: Quote) => void;
     updateQuotes: (quotes: Quote[]) => void;

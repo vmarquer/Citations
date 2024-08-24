@@ -27,6 +27,7 @@ export const HomeButton = () => {
                 color: findColor('black'),
                 display: "flex",
                 justifyContent: "center",
+                backgroundColor: findColor('white'),
                 border: `1px solid ${findColor('black')}`,
                 '&:hover': {
                     backgroundColor: findColor('white'),

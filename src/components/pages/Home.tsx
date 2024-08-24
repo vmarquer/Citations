@@ -20,7 +20,7 @@ export const Home = () => {
     return (
         <Box sx={{
             color: findColor('black'),
-            backgroundColor: findColor('background'),
+            background: 'linear-gradient(135deg, #A1C6EA, #F7A9A8, #F4D06F, #B7E4C7, #C3AED6)',
             minHeight: "100vh",
             display: "flex",
             justifyContent: "center",
@@ -30,7 +30,7 @@ export const Home = () => {
                 <Paper sx={{
                     width: '50vw',
                     height: '40vh',
-                    padding: 3,
+                    padding: 4,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
@@ -42,9 +42,12 @@ export const Home = () => {
                         color: findColor('black'),
                         display: "flex",
                         justifyContent: "center",
-                        border: `1px solid ${findColor('black')}`
+                        border: `1px solid ${findColor('black')}`,
+                        '&:hover': {
+                            backgroundColor: findColor('white'),
+                        }
                     }}
-                    onClick={()=> startGame()}>
+                        onClick={() => startGame()}>
                         <PlayCircleOutlineIcon />
                         <Typography sx={{ paddingLeft: 1 }}>START</Typography>
                     </Button>

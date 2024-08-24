@@ -1,11 +1,11 @@
 export const getFontSize = (type: string): string => {
     switch (type) {
         case 'title':
-            return '32px'
+            return '48px'
         case 'large':
-            return '20px'
+            return '28px'
         case 'medium':
-            return '14px'
+            return '16px'
         case 'small':
             return '12px'
         default: 

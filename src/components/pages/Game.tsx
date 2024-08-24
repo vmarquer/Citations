@@ -18,6 +18,19 @@ export const Game = () => {
         setAnswer(true);
     }
 
+    const getDifficultyColor = (difficulty: string) => {
+        switch (difficulty) {
+            case "1":
+                return "green"
+            case "2":
+                return "orange"
+            case "3":
+                return "red"
+            default:
+                return "black"
+        }
+    }
+
     const nextQuote = () => {
         setAnswer(false);
         if (ctx.quotes.length === 0) {
@@ -33,11 +46,13 @@ export const Game = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            background: 'linear-gradient(135deg, #A1C6EA, #F7A9A8, #F4D06F, #B7E4C7, #C3AED6)',
         }}>
             <Grid item xs={12}>
                 <Paper sx={{
-                    width: '50vw',
-                    height: '35vh',
+                    position: 'relative',
+                    width: '70vw',
+                    height: '55vh',
                     padding: 3,
                     display: 'flex',
                     flexDirection: 'column',
@@ -45,15 +60,58 @@ export const Game = () => {
                     alignItems: 'center',
                     textAlign: 'center',
                 }}>
-                    {ctx.quote ? (<Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>{ctx.quote.quote}</Typography>) : (
-                        <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>No quote available</Typography>
+                    {ctx.quote.difficulty && (
+                        <Grid sx={{
+                            position: 'absolute',
+                            top: 8,
+                            right: 8,
+                            display: 'flex',
+                        }}>
+                            <Typography sx={{ fontSize: getFontSize('medium') }}>Difficulty</Typography>
+                            <Typography sx={{
+                                fontSize: getFontSize('medium'),
+                                paddingLeft: 1,
+                                color: findColor(getDifficultyColor(ctx.quote.difficulty)),
+                            }}>{ctx.quote.difficulty}</Typography>
+                        </Grid>
                     )}
-                    {answer && (
+                    <Grid sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 10,
+                        display: 'flex',
+                    }}>
+                        {getImage('cinema.jpeg', 'auto', '12vh')}
+                    </Grid>
+                    {!answer ? (
+                        ctx.quote && (<Typography sx={{ marginBottom: 3, fontSize: getFontSize('large') }}>"{ctx.quote.quote}"</Typography>)
+                    ) : ( 
+                        ctx.quote && (
                         <>
-                            <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>{ctx.quote?.character}</Typography>
-                            {getImage(ctx.quote?.image, '10vw', 'auto')}
+                            <Grid sx={{
+                                position: 'absolute',
+                                top: '14vh',
+                                left: 25,
+                                display: 'flex',
+                            }}>
+                                {getImage(ctx.quote?.image, 'auto', '42vh')}
+                            </Grid>
+                            <Grid sx={{
+                                position: 'absolute',
+                                top: '14vh',
+                                left: '20vw',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'flex-start',
+                                textAlign: 'left',
+                            }}>
+                                <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote}"</Typography>
+                                <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Movie : {ctx.quote.movie}</Typography>
+                                {ctx.quote.character && (<Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Character : {ctx.quote.character}</Typography>)}
+                                {ctx.quote.actor && (<Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Actor : {ctx.quote.actor}</Typography>)}
+                            </Grid>
                         </>
-                    )}
+                    ))}
                 </Paper>
                 <Grid item xs={12} pt={2} justifyContent="center" display="flex">
                     {!answer ? (<Button sx={{
@@ -61,7 +119,11 @@ export const Game = () => {
                         padding: 1,
                         display: "flex",
                         justifyContent: "center",
-                        border: `1px solid ${findColor('black')}`
+                        backgroundColor: findColor('white'),
+                        border: `1px solid ${findColor('black')}`,
+                        '&:hover': {
+                            backgroundColor: findColor('white'),
+                        }
                     }}
                         onClick={() => showAnswer()}>
                         <VisibilityIcon />
@@ -71,14 +133,16 @@ export const Game = () => {
                         padding: 1,
                         display: "flex",
                         justifyContent: "center",
-                        border: `1px solid ${findColor('black')}`
+                        backgroundColor: findColor('white'),
+                        border: `1px solid ${findColor('black')}`,
+                        '&:hover': {
+                            backgroundColor: findColor('white'),
+                        }
                     }}
                         onClick={() => nextQuote()}>
                         <Typography sx={{ paddingLeft: 1 }}>Next Quote</Typography>
                         <NavigateNextIcon />
                     </Button>)}
-                    {ctx.quotes.length}
-                    {ctx.quote && ('OK')}
                 </Grid>
             </Grid>
         </Box>
