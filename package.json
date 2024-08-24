@@ -1,6 +1,7 @@
 {
   "name": "citations",
   "version": "0.1.0",
+  "homepage": "https://vmarquer.github.io/citations",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",
