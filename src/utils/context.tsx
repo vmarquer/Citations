@@ -5,4 +5,6 @@ export interface Context {
     quotes: Quote[],
     updateQuote: (quote: Quote) => void;
     updateQuotes: (quotes: Quote[]) => void;
+    initializeQuotes: () => void;
+    drawQuote: () => void;
 }

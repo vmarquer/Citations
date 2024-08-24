@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { AppContext } from '../contexts/Context';
@@ -10,6 +10,12 @@ import { useNavigate } from 'react-router-dom';
 export const Home = () => {
     const ctx = useContext(AppContext);
     const navigate = useNavigate();
+
+    const startGame = () => {
+        ctx.initializeQuotes();
+        ctx.drawQuote();
+        navigate('/game');
+    }
 
     return (
         <Box sx={{
@@ -31,14 +37,14 @@ export const Home = () => {
                     alignItems: 'center',
                     textAlign: 'center',
                 }}>
-                    <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title') }}>Jeu des citations</Typography>
+                    <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title'), fontWeight: 'bold' }}>Jeu des citations</Typography>
                     <Button sx={{
                         color: findColor('black'),
                         display: "flex",
                         justifyContent: "center",
                         border: `1px solid ${findColor('black')}`
                     }}
-                    onClick={()=> navigate('/game')}>
+                    onClick={()=> startGame()}>
                         <PlayCircleOutlineIcon />
                         <Typography sx={{ paddingLeft: 1 }}>START</Typography>
                     </Button>

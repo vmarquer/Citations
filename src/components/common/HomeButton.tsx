@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Paper } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { findColor } from '../../utils/colors';
 import HomeIcon from '@mui/icons-material/Home';
 import { useLocation, useNavigate } from 'react-router-dom';

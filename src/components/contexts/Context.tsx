@@ -13,6 +13,8 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     quotes: quotes,
     updateQuote: updateQuote,
     updateQuotes: updateQuotes,
+    initializeQuotes: initializeQuotes,
+    drawQuote: drawQuote,
   }
 
   function updateQuote(quote: Quote): void {
@@ -23,15 +25,23 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     setQuotes(quotes)
   }
 
-  useEffect(() => {
-    setQuotes(allQuotes);
-  }, []);
+  function initializeQuotes(): void {
+    setQuotes(allQuotes)
+  }
+
+  function drawQuote(): void {
+    if (quotes.length > 0) {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const randomQuote = quotes[randomIndex];
+      const updatedQuotes = quotes.filter((_, index) => index !== randomIndex);
+      setQuotes(updatedQuotes);
+      setQuote(randomQuote);
+    }
+  }
 
   useEffect(() => {
-    if (quotes.length > 0) {
-        setQuote(quotes[0]);
-    }
-  }, [quotes]);
+    initializeQuotes();
+  }, []);
 
   return <AppContext.Provider value={contextValue}>{props.children}</AppContext.Provider>
 }
