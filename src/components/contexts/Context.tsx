@@ -43,11 +43,7 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
       skipEmptyLines: true,
       delimiter: ";",
       complete: (results: ParseResult<string[]>) => {
-        results.data.map((line: string[]) => {
-          if (line.length > 6) {
-            console.log(line)
-          }
-        })
+        console.log(results.data);
         setQuotes(results.data.map((line: string[]): Quote => ({
           quote: line[0] || '',
           movie: line[1] || '',

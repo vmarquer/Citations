@@ -94,7 +94,7 @@ export const Game = () => {
                                 left: 25,
                                 display: 'flex',
                             }}>
-                                {getImage(ctx.quote?.image, 'auto', '42vh')}
+                                {getImage(ctx.quote.image, 'auto', '42vh')}
                             </Grid>
                             <Grid sx={{
                                 position: 'absolute',
