@@ -2,6 +2,7 @@ import React, { createContext, PropsWithChildren, useEffect, useState } from "re
 import { Context } from '../../utils/context';
 import { Quote } from "../../utils/quote";
 import Papa, { ParseResult } from "papaparse";
+import stringSimilarity from 'string-similarity';
 
 export const AppContext = createContext<Context>(null!)
 
@@ -17,9 +18,9 @@ const defaultQuote: Quote = {
 export const AppContextProvider = (props: PropsWithChildren<{}>) => {
   const [quote, setQuote] = useState<Quote>(defaultQuote)
   const [quotes, setQuotes] = useState<Quote[]>([])
-  const [playedQuotes, setPlayedQuotes] = useState<string[]>([])
+  const [playedQuotes, setPlayedQuotes] = useState<Quote[]>([])
   const [guessedQuotes, setGuessedQuotes] = useState<string[]>([])
-  
+
 
   const contextValue: Context = {
     quote: quote,
@@ -32,6 +33,7 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     updateGuessedQuotes: updateGuessedQuotes,
     initializeQuotes: initializeQuotes,
     drawQuote: drawQuote,
+    computeSimilarity: computeSimilarity,
   }
 
   function updateQuote(quote: Quote): void {
@@ -42,7 +44,7 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     setQuotes(quotes)
   }
 
-  function updatePlayedQuotes(quote: string): void {
+  function updatePlayedQuotes(quote: Quote): void {
     setPlayedQuotes(prevState => [...prevState, quote]);
   }
 
@@ -79,6 +81,10 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
       const remainingQuotes = quotes.filter((q) => q.quote !== quote.quote);
       setQuotes(remainingQuotes);
     }
+  }
+
+  function computeSimilarity(userAnswer: string, quote: string): number {
+    return stringSimilarity.compareTwoStrings(userAnswer, quote);
   }
 
   useEffect(() => {

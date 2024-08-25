@@ -8,8 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { getImage } from '../../utils/image';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import ArticleIcon from '@mui/icons-material/Article';
-import Badge from '@mui/material/Badge';
 
 export const Game = () => {
     const ctx = useContext(AppContext);
@@ -33,7 +31,7 @@ export const Game = () => {
     const checkAnswer = () => {
         setAnswer(true);
         ctx.updateGuessedQuotes(userAnswer);
-        ctx.updatePlayedQuotes(ctx.quote.movie);
+        ctx.updatePlayedQuotes(ctx.quote);
     };
 
     const nextQuote = () => {

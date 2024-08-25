@@ -1,16 +1,26 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import Grid from '@mui/material/Grid';
-import { Box, Button, Paper, TextField, Typography } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { AppContext } from '../contexts/Context';
 import { findColor } from '../../utils/colors';
-import { useNavigate } from 'react-router-dom';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 
 
 export const Results = () => {
     const ctx = useContext(AppContext);
-    const navigate = useNavigate();
+
+    function createData(
+        quote: string,
+        movie: string,
+        userAnswer: string,
+        difficulty: string,
+        similarity: number,
+    ) {
+        return { quote, movie, userAnswer, difficulty, similarity };
+    }
+
+    const rows = ctx.playedQuotes.map((quote, index) => createData(quote.quote, quote.movie, ctx.guessedQuotes[index], quote.difficulty, ctx.computeSimilarity(quote.movie, ctx.guessedQuotes[index])))
 
     return (
         <Box sx={{
@@ -34,24 +44,36 @@ export const Results = () => {
                     textAlign: 'center',
                 }}>
                     <Grid container item xs={12} justifyContent="center">
-                        {ctx.guessedQuotes.map((_, index) => (
-                            <>
-                                <Grid item xs={3.5}>
-                                    <Typography>{ctx.playedQuotes[index] || ''}</Typography>
-                                </Grid>
-                                <Grid item xs={3.5}>
-                                    <Typography>{ctx.guessedQuotes[index] || ''}</Typography>
-                                </Grid>
-                                <Grid item xs={3.5}>
-                                    { ctx.playedQuotes[index] === ctx.guessedQuotes[index] ? (
-                                        <CheckIcon sx={{ color: findColor('green')}}/>
-                                    ) : (<ClearIcon sx={{ color: findColor('red')}}/>)}
-                                </Grid>
-                            </>
-                        ))}
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center">Quote</TableCell>
+                                        <TableCell align="center">Movie</TableCell>
+                                        <TableCell align="center">User answer</TableCell>
+                                        <TableCell align="center">Difficulty</TableCell>
+                                        <TableCell align="center">Result</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {rows.map((row) => (
+                                        <TableRow
+                                            key={row.quote}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell>{row.quote}</TableCell>
+                                            <TableCell align="center">{row.movie}</TableCell>
+                                            <TableCell align="center">{row.userAnswer}</TableCell>
+                                            <TableCell align="center">{row.difficulty}</TableCell>
+                                            <TableCell align="center">{row.similarity > 0.7 ? (<CheckIcon sx={{ color: findColor('green')}}/>) : (<ClearIcon sx={{ color: findColor('red')}}/>)}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </Grid>
                 </Paper>
-            </Grid>
-        </Box>
+            </Grid >
+        </Box >
     );
 };
