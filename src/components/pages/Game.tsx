@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { getImage } from '../../utils/image';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import ReactAudioPlayer from 'react-audio-player';
 
 export const Game = () => {
     const ctx = useContext(AppContext);
@@ -90,6 +91,10 @@ export const Game = () => {
                     }}>
                         {getImage('cinema.jpeg', 'auto', '12vh')}
                     </Grid>
+                    <ReactAudioPlayer
+                        src="audio/3.mp3"
+                        controls
+                    />
                     {!answer ? (
                         ctx.quote && (<Typography sx={{ marginBottom: 3, fontSize: getFontSize('large') }}>"{ctx.quote.quote}"</Typography>)
                     ) : (
@@ -144,7 +149,7 @@ export const Game = () => {
                                         }
                                     }}
                                         onClick={checkAnswer}>
-                                        <ArrowCircleRightIcon sx={{fontSize: '4vh'}} />
+                                        <ArrowCircleRightIcon sx={{ fontSize: '4vh' }} />
                                     </Button>
                                 </Grid>
                             </Grid>

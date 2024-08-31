@@ -7,6 +7,7 @@ import stringSimilarity from 'string-similarity';
 export const AppContext = createContext<Context>(null!)
 
 const defaultQuote: Quote = {
+  id: '',
   quote: '',
   movie: '',
   character: '',
@@ -60,12 +61,13 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
       delimiter: ";",
       complete: (results: ParseResult<string[]>) => {
         setQuotes(results.data.map((line: string[]): Quote => ({
-          quote: line[0] || '',
-          movie: line[1] || '',
-          character: line[2] || '',
-          actor: line[3] || '',
-          difficulty: line[4] || '',
-          image: line[5] || ''
+          id: line[0] || '',
+          quote: line[1] || '',
+          movie: line[2] || '',
+          character: line[3] || '',
+          actor: line[4] || '',
+          difficulty: line[5] || '',
+          image: line[6] || ''
         })));
       },
       error: (error) => {
