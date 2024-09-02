@@ -11,6 +11,7 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import ReactAudioPlayer from 'react-audio-player';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import { Version } from '../../utils/quote';
 
 export const Game = () => {
     const ctx = useContext(AppContext);
@@ -92,7 +93,7 @@ export const Game = () => {
                                 height: '5vh',
                                 alignItems: 'center',
                             }}>
-                                <Typography sx={{ fontSize: getFontSize('medium') }}>Difficulty</Typography>
+                                <Typography sx={{ fontSize: getFontSize('medium') }}>{ctx.getText('difficulty')}</Typography>
                                 <Typography sx={{
                                     fontSize: getFontSize('medium'),
                                     paddingLeft: 1,
@@ -111,7 +112,7 @@ export const Game = () => {
                             ctx.quote && (
                                 <Grid item xs={12} sx={{ justifyContent: 'center', display: 'flex', marginRight: 2, marginLeft: 2 }}>
                                     <Typography sx={{ fontSize: getFontSize('large') }}>
-                                        "{ctx.quote.quote[ctx.language as 'vo' | 'vf']}"
+                                        "{ctx.quote.quote[ctx.version as Version]}"
                                     </Typography>
                                     <Grid />
                                 </Grid>
@@ -126,7 +127,7 @@ export const Game = () => {
                                 }}>
                                     {getImage(ctx.quote.image, 'auto', '37vh')}
                                     <ReactAudioPlayer
-                                        src={`audio/${ctx.language}/2.mp3`}
+                                        src={`audio/${ctx.version}/2.mp3`}
                                         controls
                                         style={{
                                             marginTop: '5px',
@@ -140,7 +141,7 @@ export const Game = () => {
                                     justifyContent: 'flex-start',
                                     marginRight: 2,
                                 }}>
-                                    <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote[ctx.language as 'vo' | 'vf']}"</Typography>
+                                    <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote[ctx.version as Version]}"</Typography>
                                     <TableContainer component={Paper} sx={{ marginTop: 2 }}>
                                         <Table>
                                             <TableBody>
@@ -148,31 +149,31 @@ export const Game = () => {
                                                     key="movie"
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
-                                                    <TableCell>Movie</TableCell>
-                                                    <TableCell align="center">{ctx.quote.movie[ctx.language as 'vo' | 'vf']}</TableCell>
+                                                    <TableCell>{ctx.getText('movie')}</TableCell>
+                                                    <TableCell align="center">{ctx.quote.movie[ctx.version as Version]}</TableCell>
                                                 </TableRow>
                                                 <TableRow
                                                     key="character"
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
-                                                    <TableCell>Character</TableCell>
+                                                    <TableCell>{ctx.getText('character')}</TableCell>
                                                     <TableCell align="center">{ctx.quote.character || ''}</TableCell>
                                                 </TableRow>
                                                 <TableRow
                                                     key="actor"
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
-                                                    <TableCell>Actor</TableCell>
+                                                    <TableCell>{ctx.getText('actor')}</TableCell>
                                                     <TableCell align="center">{ctx.quote.actor || ''}</TableCell>
                                                 </TableRow>
                                                 <TableRow
                                                     key="guess"
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
-                                                    <TableCell>Your guess</TableCell>
+                                                    <TableCell>{ctx.getText('user_guess')}</TableCell>
                                                     <TableCell align="center" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
                                                         {ctx.guessedQuotes[ctx.guessedQuotes.length - 1] || ''}
-                                                        {ctx.computeSimilarity(ctx.quote.movie[ctx.language as 'vo' | 'vf'], ctx.guessedQuotes[ctx.guessedQuotes.length - 1]) > 0.7 ? (
+                                                        {ctx.computeSimilarity(ctx.quote.movie[ctx.version as Version], ctx.guessedQuotes[ctx.guessedQuotes.length - 1]) > 0.6 ? (
                                                             <CheckIcon sx={{ color: findColor('green') }} />
                                                         ) : (
                                                             <ClearIcon sx={{ color: findColor('red') }} />
@@ -252,7 +253,7 @@ export const Game = () => {
                         }
                     }}
                         onClick={() => nextQuote()}>
-                        <Typography sx={{ paddingLeft: 1 }}>Next Quote</Typography>
+                        <Typography sx={{ paddingLeft: 1 }}>{ctx.getText('next_quote')}</Typography>
                         <NavigateNextIcon />
                     </Button>)}
                 </Grid>

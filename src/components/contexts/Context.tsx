@@ -1,17 +1,16 @@
 import React, { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { Context } from '../../utils/context';
-import { Quote } from "../../utils/quote";
+import { Quote, Version, Versions } from "../../utils/quote";
 import Papa, { ParseResult } from "papaparse";
 import stringSimilarity from 'string-similarity';
-import { createTextChangeRange } from "typescript";
-import { Languages } from "../../utils/language";
+import { Language, texts } from "../../utils/language"
 
 export const AppContext = createContext<Context>(null!)
 
 const defaultQuote: Quote = {
   id: '',
-  quote: {vo: '', vf: ''},
-  movie: {vo: '', vf: ''},
+  quote: { vo: '', vf: '' },
+  movie: { vo: '', vf: '' },
   character: '',
   actor: '',
   difficulty: '',
@@ -19,7 +18,8 @@ const defaultQuote: Quote = {
 };
 
 export const AppContextProvider = (props: PropsWithChildren<{}>) => {
-  const [language, setLanguage] = useState<string>(Languages.VF)
+  const [language, setLanguage] = useState<Language>(Language.FR)
+  const [version, setVersion] = useState<Version>(Version.VF)
   const [quote, setQuote] = useState<Quote>(defaultQuote)
   const [quotes, setQuotes] = useState<Quote[]>([])
   const [playedQuotes, setPlayedQuotes] = useState<Quote[]>([])
@@ -28,11 +28,14 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
 
   const contextValue: Context = {
     language: language,
+    version: version,
     quote: quote,
     quotes: quotes,
     playedQuotes: playedQuotes,
     guessedQuotes: guessedQuotes,
     updateLanguage: updateLanguage,
+    updateVersion: updateVersion,
+    getText: getText,
     updateQuote: updateQuote,
     updateQuotes: updateQuotes,
     updatePlayedQuotes: updatePlayedQuotes,
@@ -42,9 +45,17 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     computeSimilarity: computeSimilarity,
   }
 
-  function updateLanguage(language: string): void {
-    setLanguage(language)
+  function updateLanguage(language: Language): void {
+    setLanguage(language);
   }
+
+  function updateVersion(version: Version): void {
+    setVersion(version);
+  }
+
+  function getText(key: keyof typeof texts): string {
+    return texts[key][language];
+  };
 
   function updateQuote(quote: Quote): void {
     setQuote(quote)
@@ -71,8 +82,8 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
       complete: (results: ParseResult<string[]>) => {
         setQuotes(results.data.map((line: string[]): Quote => ({
           id: line[0] || '',
-          quote: {vo: line[1] || '', vf: line[2] || ''},
-          movie: {vo: line[3] || '', vf: line[4] || ''},
+          quote: { vo: line[1] || '', vf: line[2] || '' },
+          movie: { vo: line[3] || '', vf: line[4] || '' },
           character: line[5] || '',
           actor: line[6] || '',
           difficulty: line[7] || '',
@@ -89,7 +100,7 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
 
   function drawQuote(): void {
     if (quotes.length > 0 && quote) {
-      const remainingQuotes = quotes.filter((q) => q.quote !== quote.quote);
+      const remainingQuotes = quotes.filter((q) => q.quote[version] !== quote.quote[version]);
       setQuotes(remainingQuotes);
     }
   }

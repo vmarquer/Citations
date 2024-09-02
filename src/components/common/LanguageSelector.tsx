@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { findColor } from '../../utils/colors';
 import { AppContext } from '../contexts/Context';
-import { Languages } from '../../utils/language';
+import { Language } from '../../utils/language';
 
 export const LanguageSelector = () => {
 
@@ -10,7 +10,7 @@ export const LanguageSelector = () => {
     const imageStyle = { width: '30px', height: '30px' };
 
     const handleChange = (event: SelectChangeEvent) => {
-        ctx.updateLanguage(event.target.value as string);
+        ctx.updateLanguage(event.target.value as Language);
     };
 
     return (
@@ -31,8 +31,8 @@ export const LanguageSelector = () => {
                 }}
                 onChange={handleChange}
             >
-                {Object.values(Languages).map((language) => (
-                    <MenuItem value={language}><img src={`${process.env.PUBLIC_URL}/${language}.svg`} alt={language} style={imageStyle} /></MenuItem>
+                {Object.values(Language).map((language) => (
+                    <MenuItem key={language} value={language}><img src={`${process.env.PUBLIC_URL}/${language}.svg`} alt={language} style={imageStyle} /></MenuItem>
                 ))}
             </Select>
         </Box>

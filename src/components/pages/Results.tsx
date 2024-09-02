@@ -5,6 +5,7 @@ import { AppContext } from '../contexts/Context';
 import { findColor } from '../../utils/colors';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import { Version } from '../../utils/quote';
 
 
 export const Results = () => {
@@ -20,7 +21,7 @@ export const Results = () => {
         return { quote, movie, userAnswer, difficulty, similarity };
     }
 
-    const rows = ctx.playedQuotes.map((quote, index) => createData(quote.quote.vo, quote.movie.vo, ctx.guessedQuotes[index], quote.difficulty, ctx.computeSimilarity(ctx.quote.movie[ctx.language as 'vo' | 'vf'], ctx.guessedQuotes[index])))
+    const rows = ctx.playedQuotes.map((quote, index) => createData(quote.quote[ctx.version as Version], quote.movie[ctx.version as Version], ctx.guessedQuotes[index], quote.difficulty, ctx.computeSimilarity(quote.movie[ctx.version as Version], ctx.guessedQuotes[index])))
 
     return (
         <Box sx={{
@@ -48,11 +49,11 @@ export const Results = () => {
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell align="center">Quote</TableCell>
-                                        <TableCell align="center">Movie</TableCell>
-                                        <TableCell align="center">User answer</TableCell>
-                                        <TableCell align="center">Difficulty</TableCell>
-                                        <TableCell align="center">Result</TableCell>
+                                        <TableCell align="center">{ctx.getText('quote')}</TableCell>
+                                        <TableCell align="center">{ctx.getText('movie')}</TableCell>
+                                        <TableCell align="center">{ctx.getText('user_guess')}</TableCell>
+                                        <TableCell align="center">{ctx.getText('difficulty')}</TableCell>
+                                        <TableCell align="center">{ctx.getText('result')}</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -65,7 +66,7 @@ export const Results = () => {
                                             <TableCell align="center">{row.movie}</TableCell>
                                             <TableCell align="center">{row.userAnswer}</TableCell>
                                             <TableCell align="center">{row.difficulty}</TableCell>
-                                            <TableCell align="center">{row.similarity > 0.7 ? (<CheckIcon sx={{ color: findColor('green')}}/>) : (<ClearIcon sx={{ color: findColor('red')}}/>)}</TableCell>
+                                            <TableCell align="center">{row.similarity} {row.similarity > 0.6 ? (<CheckIcon sx={{ color: findColor('green')}}/>) : (<ClearIcon sx={{ color: findColor('red')}}/>)}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

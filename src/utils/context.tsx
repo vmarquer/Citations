@@ -1,12 +1,16 @@
-import { Quote } from "./quote";
+import { Language } from "./language";
+import { Quote, Version } from "./quote";
 
 export interface Context {
-    language: string;
+    language: string
+    version: string,
     quote: Quote
     quotes: Quote[]
     playedQuotes: Quote[]
     guessedQuotes: string[]
-    updateLanguage: (language: string) => void
+    updateLanguage: (language: Language) => void
+    updateVersion: (version: Version) => void
+    getText: (key: string) => string
     updateQuote: (quote: Quote) => void
     updateQuotes: (quotes: Quote[]) => void
     updateGuessedQuotes: (quote: string) => void

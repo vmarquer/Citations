@@ -1,14 +1,19 @@
 export interface Quote {
     id: string;
-    quote: Version;
-    movie: Version;
+    quote: Versions;
+    movie: Versions;
     character: string;
     actor: string;
     difficulty: string;
     image: string;
 }
 
-export interface Version {
-    vo: string;
-    vf: string;
+export enum Version {
+    VF = 'vf',
+    VO = 'vo',
+}
+
+export interface Versions {
+    'vf': string,
+    'vo': string,
 }

@@ -1,21 +1,45 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
 import { AppContext } from '../contexts/Context';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { findColor } from '../../utils/colors';
 import { getFontSize } from '../../utils/fontsizes';
 import { useNavigate } from 'react-router-dom';
+import { texts } from '../../utils/language';
+import { Version } from '../../utils/quote';
 
 export const Home = () => {
     const ctx = useContext(AppContext);
     const navigate = useNavigate();
 
+    const [quotesNumber, setQuotesNumber] = useState<number>(10)
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+    const imageStyle = { width: '30px', height: '30px' };
+
+    const handleVersion = (event: SelectChangeEvent) => {
+        ctx.updateVersion(event.target.value as Version);
+    };
+
     const startGame = () => {
-        ctx.initializeQuotes();
-        ctx.drawQuote();
-        navigate('/game');
+        if (quotesNumber > ctx.quotes.length) {
+            setOpenDialog(true);
+        } else {
+            ctx.drawQuote();
+            navigate('/game');
+        }
     }
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
+    useEffect(() => {
+        if (ctx) {
+            ctx.initializeQuotes();
+        }
+    }, []);
 
     return (
         <Box sx={{
@@ -37,7 +61,29 @@ export const Home = () => {
                     alignItems: 'center',
                     textAlign: 'center',
                 }}>
-                    <Typography sx={{ marginBottom: 3, fontSize: getFontSize('title'), fontWeight: 'bold' }}>Jeu des citations</Typography>
+                    <Typography sx={{ marginBottom: 2, fontSize: getFontSize('title'), fontWeight: 'bold' }}>{ctx.getText('app_title')}</Typography>
+                    <Grid item xs={12} sx={{ marginBottom: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <TextField
+                            type="number"
+                            value={quotesNumber}
+                            onChange={(e) => setQuotesNumber(Number(e.target.value))}
+                            placeholder={String(quotesNumber)}
+                        />
+                        <Select
+                            value={ctx.version}
+                            sx={{
+                                borderRadius: 2,
+                                marginLeft: 2,
+                                lineHeight: '0px',
+                                backgroundColor: findColor('white'),
+                            }}
+                            onChange={handleVersion}
+                        >
+                            {Object.values(Version).map((version) => (
+                                <MenuItem key={version} value={version}><img src={`${process.env.PUBLIC_URL}/${version}.svg`} alt={version} style={imageStyle} /></MenuItem>
+                            ))}
+                        </Select>
+                    </Grid>
                     <Button sx={{
                         color: findColor('black'),
                         display: "flex",
@@ -48,11 +94,32 @@ export const Home = () => {
                         }
                     }}
                         onClick={() => startGame()}>
+                        <Typography sx={{ paddingRight: 1 }}>{ctx.getText('start')}</Typography>
                         <PlayCircleOutlineIcon />
-                        <Typography sx={{ paddingLeft: 1 }}>START</Typography>
                     </Button>
                 </Paper>
             </Grid>
+
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogTitle>{ctx.getText('error')}</DialogTitle>
+                <DialogContent>
+                    <Typography sx={{ fontSize: getFontSize('small')}}>{ctx.getText('error_message')}{ctx.quotes.length} !</Typography>
+                </DialogContent>
+                <DialogActions>
+                <Button sx={{
+                        color: findColor('black'),
+                        display: "flex",
+                        justifyContent: "center",
+                        border: `1px solid ${findColor('black')}`,
+                        '&:hover': {
+                            backgroundColor: findColor('white'),
+                        }
+                    }}
+                        onClick={handleCloseDialog}>
+                        <Typography sx={{ fontSize: getFontSize('small')}}>{ctx.getText('ok')}</Typography>
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 };
