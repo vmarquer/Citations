@@ -35,12 +35,6 @@ export const Home = () => {
         setOpenDialog(false);
     };
 
-    useEffect(() => {
-        if (ctx) {
-            ctx.initializeQuotes();
-        }
-    }, []);
-
     return (
         <Box sx={{
             color: findColor('black'),

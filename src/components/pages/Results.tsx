@@ -36,17 +36,16 @@ export const Results = () => {
                 <Paper sx={{
                     position: 'relative',
                     width: '70vw',
-                    height: '55vh',
+                    height: '70vh',
                     padding: 3,
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    alignItems: 'center',
+                    alignItems: 'flex-start',
                     textAlign: 'center',
                 }}>
-                    <Grid container item xs={12} justifyContent="center">
                         <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <Table stickyHeader>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell align="center">{ctx.getText('quote')}</TableCell>
@@ -62,7 +61,7 @@ export const Results = () => {
                                             key={row.quote}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell>{row.quote}</TableCell>
+                                            <TableCell>"{row.quote}"</TableCell>
                                             <TableCell align="center">{row.movie}</TableCell>
                                             <TableCell align="center">{row.userAnswer}</TableCell>
                                             <TableCell align="center">{row.difficulty}</TableCell>
@@ -72,7 +71,6 @@ export const Results = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
                 </Paper>
             </Grid >
         </Box >
