@@ -3,13 +3,14 @@ import { Context } from '../../utils/context';
 import { Quote } from "../../utils/quote";
 import Papa, { ParseResult } from "papaparse";
 import stringSimilarity from 'string-similarity';
+import { createTextChangeRange } from "typescript";
 
 export const AppContext = createContext<Context>(null!)
 
 const defaultQuote: Quote = {
   id: '',
-  quote: '',
-  movie: '',
+  quote: {vo: '', vf: ''},
+  movie: {vo: '', vf: ''},
   character: '',
   actor: '',
   difficulty: '',
@@ -17,6 +18,7 @@ const defaultQuote: Quote = {
 };
 
 export const AppContextProvider = (props: PropsWithChildren<{}>) => {
+  const [language, setLanguage] = useState<string>('vf')
   const [quote, setQuote] = useState<Quote>(defaultQuote)
   const [quotes, setQuotes] = useState<Quote[]>([])
   const [playedQuotes, setPlayedQuotes] = useState<Quote[]>([])
@@ -24,10 +26,12 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
 
 
   const contextValue: Context = {
+    language: language,
     quote: quote,
     quotes: quotes,
     playedQuotes: playedQuotes,
     guessedQuotes: guessedQuotes,
+    updateLanguage: updateLanguage,
     updateQuote: updateQuote,
     updateQuotes: updateQuotes,
     updatePlayedQuotes: updatePlayedQuotes,
@@ -35,6 +39,10 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     initializeQuotes: initializeQuotes,
     drawQuote: drawQuote,
     computeSimilarity: computeSimilarity,
+  }
+
+  function updateLanguage(language: string): void {
+    setLanguage(language)
   }
 
   function updateQuote(quote: Quote): void {
@@ -62,12 +70,12 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
       complete: (results: ParseResult<string[]>) => {
         setQuotes(results.data.map((line: string[]): Quote => ({
           id: line[0] || '',
-          quote: line[1] || '',
-          movie: line[2] || '',
-          character: line[3] || '',
-          actor: line[4] || '',
-          difficulty: line[5] || '',
-          image: line[6] || ''
+          quote: {vo: line[1] || '', vf: line[2] || ''},
+          movie: {vo: line[3] || '', vf: line[4] || ''},
+          character: line[5] || '',
+          actor: line[6] || '',
+          difficulty: line[7] || '',
+          image: line[8] || ''
         })));
       },
       error: (error) => {

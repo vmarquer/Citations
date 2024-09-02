@@ -6,21 +6,23 @@ import { Game } from './components/pages/Game';
 import { HomeButton } from './components/common/HomeButton';
 import { Results } from './components/pages/Results';
 import { ResultsButton } from './components/common/ResultsButton';
+import { LanguageSelector } from './components/common/LanguageSelector';
 
 function App() {
   return (
-    <div>
+    <AppContextProvider>
       <Router basename="/Citations">
-        <HomeButton/>
-        <ResultsButton/>
+        <HomeButton />
+        <LanguageSelector />
+        <ResultsButton />
         <Routes>
-          <Route path="" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<AppContextProvider><Home /></AppContextProvider>} />
-          <Route path="/game" element={<AppContextProvider><Game /></AppContextProvider>} />
-          <Route path="/results" element={<AppContextProvider><Results /></AppContextProvider>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/game" element={<Game />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
-    </div>
+    </AppContextProvider>
   );
 }
 

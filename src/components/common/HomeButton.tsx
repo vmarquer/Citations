@@ -8,7 +8,7 @@ export const HomeButton = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    if (location.pathname === '/home') {
+    if (location.pathname === '/') {
         return <></>
     }
     return (
@@ -32,7 +32,7 @@ export const HomeButton = () => {
                     backgroundColor: findColor('white'),
                 }
             }}
-                onClick={() => navigate('/home')}>
+                onClick={() => navigate('')}>
                 <HomeIcon />
             </Button>
         </Box>

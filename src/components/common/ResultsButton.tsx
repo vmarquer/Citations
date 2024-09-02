@@ -15,7 +15,7 @@ export const ResultsButton = () => {
         <Box sx={{
             position: 'fixed',
             top: 30,
-            right: 30,
+            right: 120,
             color: findColor('black'),
             borderRadius: 1,
             zIndex: 1000,

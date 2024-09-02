@@ -38,7 +38,7 @@ export const Game = () => {
     const nextQuote = () => {
         setAnswer(false);
         if (ctx.quotes.length === 0) {
-            navigate('/home')
+            navigate('/')
         }
         ctx.drawQuote();
         setUserAnswer('');
@@ -92,11 +92,11 @@ export const Game = () => {
                         {getImage('cinema.jpeg', 'auto', '12vh')}
                     </Grid>
                     <ReactAudioPlayer
-                        src="audio/3.mp3"
+                        src={`audio/${ctx.language}/3.mp3`}
                         controls
                     />
                     {!answer ? (
-                        ctx.quote && (<Typography sx={{ marginBottom: 3, fontSize: getFontSize('large') }}>"{ctx.quote.quote}"</Typography>)
+                        ctx.quote && (<Typography sx={{ marginBottom: 3, fontSize: getFontSize('large') }}>"{ctx.quote.quote[ctx.language as 'vo' | 'vf']}"</Typography>)
                     ) : (
                         ctx.quote && (
                             <Grid container spacing={2} sx={{ position: 'relative', top: '5vh' }}>
@@ -104,8 +104,8 @@ export const Game = () => {
                                     {getImage(ctx.quote.image, 'auto', '42vh')}
                                 </Grid>
                                 <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', textAlign: 'left' }}>
-                                    <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote}"</Typography>
-                                    <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Movie: {ctx.quote.movie}</Typography>
+                                    <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote[ctx.language as 'vo' | 'vf']}"</Typography>
+                                    <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Movie: {ctx.quote.movie[ctx.language as 'vo' | 'vf'] }</Typography>
                                     {ctx.quote.character && (
                                         <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Character: {ctx.quote.character}</Typography>
                                     )}
