@@ -21,20 +21,20 @@ export const ResultsButton = () => {
             zIndex: 1000,
         }}>
             <Button sx={{
-                    width: '50px',
-                    height: '60px',
-                    color: findColor('white'),
-                    display: "flex",
-                    justifyContent: "center",
+                width: '50px',
+                height: '60px',
+                color: findColor('white'),
+                display: "flex",
+                justifyContent: "center",
+                backgroundColor: findColor('yellow'),
+                borderRadius: '50%',
+                '&:hover': {
                     backgroundColor: findColor('yellow'),
-                    borderRadius: '50%',
-                    '&:hover': {
-                        backgroundColor: findColor('yellow'),
-                    }
-                }}
-                    onClick={() => navigate('/results')}>
-                    <EmojiEventsIcon />
-                </Button>
+                }
+            }}
+                onClick={() => navigate('/results')}>
+                <EmojiEventsIcon />
+            </Button>
         </Box>
     );
 };

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { findColor } from '../../utils/colors';
 import { AppContext } from '../contexts/Context';
+import { Languages } from '../../utils/language';
 
 export const LanguageSelector = () => {
 
@@ -30,8 +31,9 @@ export const LanguageSelector = () => {
                 }}
                 onChange={handleChange}
             >
-                <MenuItem value="vf"><img src={`${process.env.PUBLIC_URL}/vf.svg`} alt="vf" style={imageStyle} /></MenuItem>
-                <MenuItem value="vo"><img src={`${process.env.PUBLIC_URL}/vo.svg`} alt="vo" style={imageStyle} /></MenuItem>
+                {Object.values(Languages).map((language) => (
+                    <MenuItem value={language}><img src={`${process.env.PUBLIC_URL}/${language}.svg`} alt={language} style={imageStyle} /></MenuItem>
+                ))}
             </Select>
         </Box>
     );

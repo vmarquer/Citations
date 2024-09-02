@@ -20,7 +20,7 @@ export const Results = () => {
         return { quote, movie, userAnswer, difficulty, similarity };
     }
 
-    const rows = ctx.playedQuotes.map((quote, index) => createData(quote.quote.vo, quote.movie.vo, ctx.guessedQuotes[index], quote.difficulty, ctx.computeSimilarity(quote.movie.vo, ctx.guessedQuotes[index])))
+    const rows = ctx.playedQuotes.map((quote, index) => createData(quote.quote.vo, quote.movie.vo, ctx.guessedQuotes[index], quote.difficulty, ctx.computeSimilarity(ctx.quote.movie[ctx.language as 'vo' | 'vf'], ctx.guessedQuotes[index])))
 
     return (
         <Box sx={{

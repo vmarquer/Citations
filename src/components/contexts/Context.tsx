@@ -4,6 +4,7 @@ import { Quote } from "../../utils/quote";
 import Papa, { ParseResult } from "papaparse";
 import stringSimilarity from 'string-similarity';
 import { createTextChangeRange } from "typescript";
+import { Languages } from "../../utils/language";
 
 export const AppContext = createContext<Context>(null!)
 
@@ -18,7 +19,7 @@ const defaultQuote: Quote = {
 };
 
 export const AppContextProvider = (props: PropsWithChildren<{}>) => {
-  const [language, setLanguage] = useState<string>('vf')
+  const [language, setLanguage] = useState<string>(Languages.VF)
   const [quote, setQuote] = useState<Quote>(defaultQuote)
   const [quotes, setQuotes] = useState<Quote[]>([])
   const [playedQuotes, setPlayedQuotes] = useState<Quote[]>([])

@@ -1,20 +1,29 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { Box, Button, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { AppContext } from '../contexts/Context';
 import { findColor } from '../../utils/colors';
 import { getFontSize } from '../../utils/fontsizes';
 import { useNavigate } from 'react-router-dom';
 import { getImage } from '../../utils/image';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import ReactAudioPlayer from 'react-audio-player';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 export const Game = () => {
     const ctx = useContext(AppContext);
     const navigate = useNavigate();
     const [answer, setAnswer] = useState<Boolean>(false);
     const [userAnswer, setUserAnswer] = useState('');
+    const textFieldRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (textFieldRef.current) {
+            textFieldRef.current.focus();
+        }
+    }, []);
 
     const getDifficultyColor = (difficulty: string) => {
         switch (difficulty) {
@@ -58,98 +67,172 @@ export const Game = () => {
                     position: 'relative',
                     width: '70vw',
                     height: '55vh',
-                    padding: 3,
+                    padding: 1,
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    textAlign: 'center',
                 }}>
-                    {ctx.quote.difficulty && (
-                        <Grid sx={{
-                            position: 'absolute',
-                            top: 8,
-                            right: 8,
-                            display: 'flex',
-                            color: findColor('white'),
-                            backgroundColor: findColor(getDifficultyColor(ctx.quote.difficulty)),
-                            padding: 1,
-                            borderRadius: 2,
-                        }}>
-                            <Typography sx={{ fontSize: getFontSize('medium') }}>Difficulty</Typography>
-                            <Typography sx={{
-                                fontSize: getFontSize('medium'),
-                                paddingLeft: 1,
-                            }}>{ctx.quote.difficulty}</Typography>
-                        </Grid>
-                    )}
-                    <Grid sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 10,
+                    <Grid item xs={12} sx={{
+                        justifyContent: 'space-between',
                         display: 'flex',
+                        alignItems: 'center',
                     }}>
-                        {getImage('cinema.jpeg', 'auto', '12vh')}
+                        <Grid sx={{
+                            paddingLeft: 1,
+                        }}>
+                            {getImage('cinema.jpeg', 'auto', '12vh')}
+                        </Grid>
+                        {ctx.quote.difficulty && (
+                            <Grid sx={{
+                                color: findColor('white'),
+                                backgroundColor: findColor(getDifficultyColor(ctx.quote.difficulty)),
+                                padding: 2,
+                                marginRight: 1,
+                                borderRadius: 2,
+                                display: 'flex',
+                                height: '5vh',
+                                alignItems: 'center',
+                            }}>
+                                <Typography sx={{ fontSize: getFontSize('medium') }}>Difficulty</Typography>
+                                <Typography sx={{
+                                    fontSize: getFontSize('medium'),
+                                    paddingLeft: 1,
+                                }}>{ctx.quote.difficulty}</Typography>
+                            </Grid>
+                        )}
                     </Grid>
-                    <ReactAudioPlayer
-                        src={`audio/${ctx.language}/3.mp3`}
-                        controls
-                    />
-                    {!answer ? (
-                        ctx.quote && (<Typography sx={{ marginBottom: 3, fontSize: getFontSize('large') }}>"{ctx.quote.quote[ctx.language as 'vo' | 'vf']}"</Typography>)
-                    ) : (
-                        ctx.quote && (
-                            <Grid container spacing={2} sx={{ position: 'relative', top: '5vh' }}>
-                                <Grid item xs={4} sx={{ display: 'flex' }}>
-                                    {getImage(ctx.quote.image, 'auto', '42vh')}
+                    <Grid container item xs={12} sx={{
+                        flexGrow: 1,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginBottom: 3,
+                    }}>
+                        {!answer ? (
+                            ctx.quote && (
+                                <Grid item xs={12} sx={{ justifyContent: 'center', display: 'flex', marginRight: 2, marginLeft: 2 }}>
+                                    <Typography sx={{ fontSize: getFontSize('large') }}>
+                                        "{ctx.quote.quote[ctx.language as 'vo' | 'vf']}"
+                                    </Typography>
+                                    <Grid />
                                 </Grid>
-                                <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', textAlign: 'left' }}>
+                            )
+                        ) : (
+                            <Grid item xs={12} sx={{ display: 'flex', height: '100%', justifyContent: 'space-between' }}>
+                                <Grid item xs={4} sx={{
+                                    flexDirection: 'column',
+                                    display: 'flex',
+                                    height: '100%',
+                                    alignItems: 'center',
+                                }}>
+                                    {getImage(ctx.quote.image, 'auto', '37vh')}
+                                    <ReactAudioPlayer
+                                        src={`audio/${ctx.language}/2.mp3`}
+                                        controls
+                                        style={{
+                                            marginTop: '5px',
+                                            width: '70%'
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={7.8} sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'flex-start',
+                                    marginRight: 2,
+                                }}>
                                     <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote[ctx.language as 'vo' | 'vf']}"</Typography>
-                                    <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Movie: {ctx.quote.movie[ctx.language as 'vo' | 'vf'] }</Typography>
-                                    {ctx.quote.character && (
-                                        <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Character: {ctx.quote.character}</Typography>
-                                    )}
-                                    {ctx.quote.actor && (
-                                        <Typography sx={{ fontSize: getFontSize('large'), paddingTop: 2 }}>Actor: {ctx.quote.actor}</Typography>
-                                    )}
+                                    <TableContainer component={Paper} sx={{ marginTop: 2 }}>
+                                        <Table>
+                                            <TableBody>
+                                                <TableRow
+                                                    key="movie"
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell>Movie</TableCell>
+                                                    <TableCell align="center">{ctx.quote.movie[ctx.language as 'vo' | 'vf']}</TableCell>
+                                                </TableRow>
+                                                <TableRow
+                                                    key="character"
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell>Character</TableCell>
+                                                    <TableCell align="center">{ctx.quote.character || ''}</TableCell>
+                                                </TableRow>
+                                                <TableRow
+                                                    key="actor"
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell>Actor</TableCell>
+                                                    <TableCell align="center">{ctx.quote.actor || ''}</TableCell>
+                                                </TableRow>
+                                                <TableRow
+                                                    key="guess"
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell>Your guess</TableCell>
+                                                    <TableCell align="center" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+                                                        {ctx.guessedQuotes[ctx.guessedQuotes.length - 1] || ''}
+                                                        {ctx.computeSimilarity(ctx.quote.movie[ctx.language as 'vo' | 'vf'], ctx.guessedQuotes[ctx.guessedQuotes.length - 1]) > 0.7 ? (
+                                                            <CheckIcon sx={{ color: findColor('green') }} />
+                                                        ) : (
+                                                            <ClearIcon sx={{ color: findColor('red') }} />
+                                                        )}
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
                                 </Grid>
                             </Grid>
-                        )
-                    )}
+                        )}
+                    </Grid>
                 </Paper>
                 {!answer && (
                     <Grid item xs={12} pt={1}>
                         <Paper sx={{
-                            height: '8vh',
+                            height: '6vh',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
+                            padding: 1,
                         }}>
-                            <Grid container spacing={2} sx={{ width: '100%', height: '100%', alignItems: 'center' }}>
+                            <Grid container item xs={12} sx={{ justifyContent: 'space-between', display: 'flex', padding: 1 }}>
                                 <Grid item xs={11}>
                                     <TextField
-                                        rows={5}
-                                        variant="outlined"
+                                        inputRef={textFieldRef}
                                         fullWidth
                                         value={userAnswer}
                                         onChange={(e) => setUserAnswer(e.target.value)}
-                                        placeholder="Entrez votre réponse ici" />
+                                        placeholder="Entrez votre réponse ici"
+                                        sx={{
+                                            height: '100%',
+                                            '& .MuiOutlinedInput-root': {
+                                                '& fieldset': {
+                                                    borderColor: findColor('black'),
+                                                },
+                                                '&:hover fieldset': {
+                                                    borderColor: findColor('black'),
+                                                },
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: findColor('black'),
+                                                },
+                                            },
+                                        }}
+                                    />
                                 </Grid>
-                                <Grid item xs={1}>
+                                <Grid item xs={0.8}>
                                     <Button sx={{
+                                        height: '100%',
                                         color: findColor('black'),
-                                        padding: 1,
-                                        display: "flex",
-                                        width: '100%',
-                                        justifyContent: "center",
                                         backgroundColor: findColor('white'),
+                                        borderRadius: 2,
                                         border: `1px solid ${findColor('black')}`,
                                         '&:hover': {
                                             backgroundColor: findColor('white'),
                                         }
                                     }}
                                         onClick={checkAnswer}>
-                                        <ArrowCircleRightIcon sx={{ fontSize: '4vh' }} />
+                                        <ArrowCircleRightOutlinedIcon />
                                     </Button>
                                 </Grid>
                             </Grid>
