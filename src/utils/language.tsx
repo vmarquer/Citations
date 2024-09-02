@@ -22,4 +22,5 @@ export const texts: Record<string, Text> = {
     'error' : { 'en': 'Error', 'fr' : 'Erreur' },
     'error_message' : { 'en': 'The maximum number of possible quotes is ', 'fr' : 'Le nombre maximum de citations possibles est ' },
     'ok' : { 'en': 'Ok', 'fr' : 'Ok' },
+    'see_results' : { 'en': 'See results', 'fr' : 'Voir les résultats' },
 }

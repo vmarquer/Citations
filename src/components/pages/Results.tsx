@@ -66,7 +66,7 @@ export const Results = () => {
                                             <TableCell align="center">{row.movie}</TableCell>
                                             <TableCell align="center">{row.userAnswer}</TableCell>
                                             <TableCell align="center">{row.difficulty}</TableCell>
-                                            <TableCell align="center">{row.similarity} {row.similarity > 0.6 ? (<CheckIcon sx={{ color: findColor('green')}}/>) : (<ClearIcon sx={{ color: findColor('red')}}/>)}</TableCell>
+                                            <TableCell align="center">{row.similarity > 0.6 ? (<CheckIcon sx={{ color: findColor('green')}}/>) : (<ClearIcon sx={{ color: findColor('red')}}/>)}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

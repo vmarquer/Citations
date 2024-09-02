@@ -25,7 +25,7 @@ export const LanguageSelector = () => {
             <Select
                 value={ctx.language}
                 sx={{
-                    borderRadius: '0px',
+                    borderRadius: '20%',
                     lineHeight: '0px',
                     backgroundColor: findColor('white'),
                 }}

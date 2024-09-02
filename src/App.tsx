@@ -5,7 +5,6 @@ import { Home } from './components/pages/Home';
 import { Game } from './components/pages/Game';
 import { HomeButton } from './components/common/HomeButton';
 import { Results } from './components/pages/Results';
-import { ResultsButton } from './components/common/ResultsButton';
 import { LanguageSelector } from './components/common/LanguageSelector';
 
 function App() {
@@ -14,7 +13,6 @@ function App() {
       <Router basename="/Citations">
         <HomeButton />
         <LanguageSelector />
-        <ResultsButton />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/game" element={<Game />} />

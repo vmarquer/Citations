@@ -47,10 +47,10 @@ export const Game = () => {
 
     const nextQuote = () => {
         setAnswer(false);
-        if (ctx.quotes.length === 0) {
-            navigate('/')
+        if (ctx.index === ctx.quotes.length - 1) {
+            navigate('/results')
         }
-        ctx.drawQuote();
+        ctx.incrementIndex();
         setUserAnswer('');
     }
 
@@ -81,6 +81,11 @@ export const Game = () => {
                             paddingLeft: 1,
                         }}>
                             {getImage('cinema.jpeg', 'auto', '12vh')}
+                        </Grid>
+                        <Grid sx={{
+                            paddingLeft: 1,
+                        }}>
+                            {ctx.index + 1} / {ctx.quotes.length}
                         </Grid>
                         {ctx.quote.difficulty && (
                             <Grid sx={{
@@ -253,7 +258,7 @@ export const Game = () => {
                         }
                     }}
                         onClick={() => nextQuote()}>
-                        <Typography sx={{ paddingLeft: 1 }}>{ctx.getText('next_quote')}</Typography>
+                        <Typography sx={{ paddingLeft: 1 }}>{ctx.index + 1 === ctx.quotes.length ? ctx.getText('see_results') : ctx.getText('next_quote') }</Typography>
                         <NavigateNextIcon />
                     </Button>)}
                 </Grid>

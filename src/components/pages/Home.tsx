@@ -23,10 +23,10 @@ export const Home = () => {
     };
 
     const startGame = () => {
-        if (quotesNumber > ctx.quotes.length) {
+        if (quotesNumber > ctx.allQuotes.length) {
             setOpenDialog(true);
         } else {
-            ctx.drawQuote();
+            ctx.startGame(quotesNumber);
             navigate('/game');
         }
     }
@@ -103,7 +103,7 @@ export const Home = () => {
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogTitle>{ctx.getText('error')}</DialogTitle>
                 <DialogContent>
-                    <Typography sx={{ fontSize: getFontSize('small')}}>{ctx.getText('error_message')}{ctx.quotes.length} !</Typography>
+                    <Typography sx={{ fontSize: getFontSize('small')}}>{ctx.getText('error_message')}{ctx.allQuotes.length} !</Typography>
                 </DialogContent>
                 <DialogActions>
                 <Button sx={{
