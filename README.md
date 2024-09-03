@@ -11,6 +11,5 @@ and then `npm run deploy -- -m "message"`
 ## TODO
 
 - Add all audios
-- Implement switch language (Vf-Vo)
 - Use a free web api
 - Add authentification and profiles

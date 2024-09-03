@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Button } from '@mui/material';
 import { findColor } from '../../utils/colors';
 import HomeIcon from '@mui/icons-material/Home';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AppContext } from '../contexts/Context';
 
 export const HomeButton = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const ctx = useContext(AppContext);
+
+    const goHome = () => {
+        ctx.initializeQuotes();
+        navigate('');
+    }
 
     if (location.pathname === '/') {
         return <></>
@@ -32,7 +39,7 @@ export const HomeButton = () => {
                     backgroundColor: findColor('white'),
                 }
             }}
-                onClick={() => navigate('')}>
+                onClick={goHome}>
                 <HomeIcon />
             </Button>
         </Box>

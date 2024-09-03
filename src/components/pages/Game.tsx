@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from '@mui/material';
 import { AppContext } from '../contexts/Context';
 import { findColor } from '../../utils/colors';
 import { getFontSize } from '../../utils/fontsizes';
@@ -12,6 +12,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Version } from '../../utils/quote';
+import { getDifficultyColor } from '../../utils/difficulty';
 
 export const Game = () => {
     const ctx = useContext(AppContext);
@@ -26,18 +27,11 @@ export const Game = () => {
         }
     }, []);
 
-    const getDifficultyColor = (difficulty: string) => {
-        switch (difficulty) {
-            case "1":
-                return "green"
-            case "2":
-                return "yellow"
-            case "3":
-                return "red"
-            default:
-                return "black"
+    useEffect(() => {
+        if (textFieldRef.current) {
+            textFieldRef.current.focus();
         }
-    }
+    }, [answer]);
 
     const checkAnswer = () => {
         setAnswer(true);
@@ -45,13 +39,20 @@ export const Game = () => {
         ctx.updatePlayedQuotes(ctx.quote);
     };
 
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            checkAnswer();
+        }
+    };
+
     const nextQuote = () => {
         setAnswer(false);
         if (ctx.index === ctx.quotes.length - 1) {
             navigate('/results')
+        } else {
+            ctx.incrementIndex();
+            setUserAnswer('');
         }
-        ctx.incrementIndex();
-        setUserAnswer('');
     }
 
     return (
@@ -66,8 +67,8 @@ export const Game = () => {
             <Grid item xs={12}>
                 <Paper sx={{
                     position: 'relative',
-                    width: '70vw',
-                    height: '55vh',
+                    width: '75vw',
+                    height: '65vh',
                     padding: 1,
                     display: 'flex',
                     flexDirection: 'column',
@@ -82,10 +83,28 @@ export const Game = () => {
                         }}>
                             {getImage('cinema.jpeg', 'auto', '12vh')}
                         </Grid>
-                        <Grid sx={{
-                            paddingLeft: 1,
-                        }}>
-                            {ctx.index + 1} / {ctx.quotes.length}
+                        <Grid sx={{ position: 'relative', display: 'inline-flex' }}>
+                            <CircularProgress
+                                variant="determinate"
+                                value={(ctx.index + 1) * 100 / ctx.quotes.length}
+                                style={{ width: '7vh', height: '7vh' }}
+                            />
+                            <Box
+                                sx={{
+                                    top: 0,
+                                    left: 0,
+                                    bottom: 0,
+                                    right: 0,
+                                    position: 'absolute',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <Typography
+                                    sx={{ fontSize: getFontSize('medium') }}
+                                >{`${ctx.index + 1} / ${ctx.quotes.length}`}</Typography>
+                            </Box>
                         </Grid>
                         {ctx.quote.difficulty && (
                             <Grid sx={{
@@ -115,7 +134,7 @@ export const Game = () => {
                     }}>
                         {!answer ? (
                             ctx.quote && (
-                                <Grid item xs={12} sx={{ justifyContent: 'center', display: 'flex', marginRight: 2, marginLeft: 2 }}>
+                                <Grid item xs={9} sx={{ justifyContent: 'center', display: 'flex', marginRight: 2, marginLeft: 2 }}>
                                     <Typography sx={{ fontSize: getFontSize('large') }}>
                                         "{ctx.quote.quote[ctx.version as Version]}"
                                     </Typography>
@@ -129,8 +148,10 @@ export const Game = () => {
                                     display: 'flex',
                                     height: '100%',
                                     alignItems: 'center',
+                                    overflowY: 'auto',
+                                    maxHeight: '50vh',
                                 }}>
-                                    {getImage(ctx.quote.image, 'auto', '37vh')}
+                                    {getImage(ctx.quote.image, 'auto', '44vh')}
                                     <ReactAudioPlayer
                                         src={`audio/${ctx.version}/2.mp3`}
                                         controls
@@ -145,6 +166,8 @@ export const Game = () => {
                                     flexDirection: 'column',
                                     justifyContent: 'flex-start',
                                     marginRight: 2,
+                                    overflowY: 'auto',
+                                    maxHeight: '50vh',
                                 }}>
                                     <Typography sx={{ fontSize: getFontSize('large') }}>"{ctx.quote.quote[ctx.version as Version]}"</Typography>
                                     <TableContainer component={Paper} sx={{ marginTop: 2 }}>
@@ -197,19 +220,21 @@ export const Game = () => {
                     <Grid item xs={12} pt={1}>
                         <Paper sx={{
                             height: '6vh',
+                            minHeight: '60px',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
                             padding: 1,
                         }}>
-                            <Grid container item xs={12} sx={{ justifyContent: 'space-between', display: 'flex', padding: 1 }}>
-                                <Grid item xs={11}>
+                            <Grid container item xs={12} sx={{ justifyContent: 'space-between', display: 'flex', margin: 1 }}>
+                                <Grid item xs={10.8}>
                                     <TextField
                                         inputRef={textFieldRef}
                                         fullWidth
                                         value={userAnswer}
                                         onChange={(e) => setUserAnswer(e.target.value)}
                                         placeholder="Entrez votre réponse ici"
+                                        onKeyDown={handleKeyDown}
                                         sx={{
                                             height: '100%',
                                             '& .MuiOutlinedInput-root': {
@@ -226,7 +251,7 @@ export const Game = () => {
                                         }}
                                     />
                                 </Grid>
-                                <Grid item xs={0.8}>
+                                <Grid item xs={1}>
                                     <Button sx={{
                                         height: '100%',
                                         color: findColor('black'),
@@ -258,7 +283,7 @@ export const Game = () => {
                         }
                     }}
                         onClick={() => nextQuote()}>
-                        <Typography sx={{ paddingLeft: 1 }}>{ctx.index + 1 === ctx.quotes.length ? ctx.getText('see_results') : ctx.getText('next_quote') }</Typography>
+                        <Typography sx={{ paddingLeft: 1 }}>{ctx.index + 1 === ctx.quotes.length ? ctx.getText('see_results') : ctx.getText('next_quote')}</Typography>
                         <NavigateNextIcon />
                     </Button>)}
                 </Grid>

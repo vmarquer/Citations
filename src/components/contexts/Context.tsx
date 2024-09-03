@@ -133,7 +133,7 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
   }
 
   function computeSimilarity(userAnswer: string, quote: string): number {
-    return stringSimilarity.compareTwoStrings(userAnswer, quote);
+    return stringSimilarity.compareTwoStrings(userAnswer.toLowerCase(), quote.toLowerCase());
   }
 
   useEffect(() => {

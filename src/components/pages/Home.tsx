@@ -16,7 +16,7 @@ export const Home = () => {
     const [quotesNumber, setQuotesNumber] = useState<number>(10)
     const [openDialog, setOpenDialog] = useState<boolean>(false);
 
-    const imageStyle = { width: '30px', height: '30px' };
+    const imageStyle = { width: '3vh', height: '3vh' };
 
     const handleVersion = (event: SelectChangeEvent) => {
         ctx.updateVersion(event.target.value as Version);
@@ -46,8 +46,8 @@ export const Home = () => {
         }}>
             <Grid item xs={12}>
                 <Paper sx={{
-                    width: '40vw',
-                    height: '30vh',
+                    width: '50vw',
+                    height: '40vh',
                     padding: 4,
                     display: 'flex',
                     flexDirection: 'column',
