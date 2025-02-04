@@ -12,7 +12,7 @@ import { getDifficultyColor } from '../../utils/difficulty';
 
 
 export const Results = () => {
-    const ctx = useContext(AppContext);
+    /* const ctx = useContext(AppContext);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [hoveredImage, setHoveredImage] = useState<string | null>(null);
 
@@ -166,5 +166,5 @@ export const Results = () => {
                 )}
             </Popover>
         </Box >
-    );
+    ); */
 };

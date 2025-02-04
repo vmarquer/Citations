@@ -8,13 +8,12 @@ import { getFontSize } from '../../utils/fontsizes';
 import { useNavigate } from 'react-router-dom';
 import { texts } from '../../utils/language';
 import { Version } from '../../utils/quote';
+import { Quiz } from '../../utils/quiz';
+import { EnumSelector } from '../common/EnumSelector';
 
 export const Home = () => {
     const ctx = useContext(AppContext);
     const navigate = useNavigate();
-
-    const [quotesNumber, setQuotesNumber] = useState<number>(10)
-    const [openDialog, setOpenDialog] = useState<boolean>(false);
 
     const imageStyle = { width: '3vh', height: '3vh' };
 
@@ -22,18 +21,14 @@ export const Home = () => {
         ctx.updateVersion(event.target.value as Version);
     };
 
-    const startGame = () => {
-        if (quotesNumber > ctx.allQuotes.length) {
-            setOpenDialog(true);
-        } else {
-            ctx.startGame(quotesNumber);
-            navigate('/game');
-        }
-    }
-
-    const handleCloseDialog = () => {
-        setOpenDialog(false);
+    const handleQuizType = (event: SelectChangeEvent) => {
+        ctx.updateQuizType(event.target.value as Quiz);
     };
+
+    const startGame = () => {
+        ctx.launchQuiz();
+        navigate('/game');
+    }
 
     return (
         <Box sx={{
@@ -46,8 +41,10 @@ export const Home = () => {
         }}>
             <Grid item xs={12}>
                 <Paper sx={{
-                    width: '50vw',
-                    height: '40vh',
+                    width: '40vw',
+                    minWidth: '350px',
+                    height: '30vh',
+                    minHeight: '200px',
                     padding: 4,
                     display: 'flex',
                     flexDirection: 'column',
@@ -56,64 +53,26 @@ export const Home = () => {
                     textAlign: 'center',
                 }}>
                     <Typography sx={{ marginBottom: 2, fontSize: getFontSize('title'), fontWeight: 'bold' }}>{ctx.getText('app_title')}</Typography>
-                    <Grid item xs={12} sx={{ marginBottom: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <TextField
-                            type="number"
-                            value={quotesNumber}
-                            onChange={(e) => setQuotesNumber(Number(e.target.value))}
-                            placeholder={String(quotesNumber)}
-                        />
-                        <Select
-                            value={ctx.version}
-                            sx={{
-                                borderRadius: 2,
-                                marginLeft: 2,
-                                lineHeight: '0px',
+                    <Grid item xs={12} sx={{ marginBottom: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
+                        <EnumSelector images={true} value={ctx.quizType} values={Quiz} onChange={handleQuizType} />
+                        <EnumSelector images={true} value={ctx.version} values={Version} onChange={handleVersion} />
+                        <Button sx={{
+                            color: findColor('black'),
+                            display: "flex",
+                            height: "100%",
+                            justifyContent: "center",
+                            border: `1px solid ${findColor('black')}`,
+                            '&:hover': {
                                 backgroundColor: findColor('white'),
-                            }}
-                            onChange={handleVersion}
-                        >
-                            {Object.values(Version).map((version) => (
-                                <MenuItem key={version} value={version}><img src={`${process.env.PUBLIC_URL}/${version}.svg`} alt={version} style={imageStyle} /></MenuItem>
-                            ))}
-                        </Select>
+                            }
+                        }}
+                            onClick={() => startGame()}>
+                            <Typography sx={{ paddingRight: 1 }}>{ctx.getText('start')}</Typography>
+                            <PlayCircleOutlineIcon />
+                        </Button>
                     </Grid>
-                    <Button sx={{
-                        color: findColor('black'),
-                        display: "flex",
-                        justifyContent: "center",
-                        border: `1px solid ${findColor('black')}`,
-                        '&:hover': {
-                            backgroundColor: findColor('white'),
-                        }
-                    }}
-                        onClick={() => startGame()}>
-                        <Typography sx={{ paddingRight: 1 }}>{ctx.getText('start')}</Typography>
-                        <PlayCircleOutlineIcon />
-                    </Button>
                 </Paper>
             </Grid>
-
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>{ctx.getText('error')}</DialogTitle>
-                <DialogContent>
-                    <Typography sx={{ fontSize: getFontSize('small')}}>{ctx.getText('error_message')}{ctx.allQuotes.length} !</Typography>
-                </DialogContent>
-                <DialogActions>
-                <Button sx={{
-                        color: findColor('black'),
-                        display: "flex",
-                        justifyContent: "center",
-                        border: `1px solid ${findColor('black')}`,
-                        '&:hover': {
-                            backgroundColor: findColor('white'),
-                        }
-                    }}
-                        onClick={handleCloseDialog}>
-                        <Typography sx={{ fontSize: getFontSize('small')}}>{ctx.getText('ok')}</Typography>
-                    </Button>
-                </DialogActions>
-            </Dialog>
         </Box>
     );
 };

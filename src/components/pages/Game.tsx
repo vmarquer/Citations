@@ -15,7 +15,7 @@ import { Version } from '../../utils/quote';
 import { getDifficultyColor } from '../../utils/difficulty';
 
 export const Game = () => {
-    const ctx = useContext(AppContext);
+    /* const ctx = useContext(AppContext);
     const navigate = useNavigate();
     const [answer, setAnswer] = useState<Boolean>(false);
     const [userAnswer, setUserAnswer] = useState('');
@@ -289,5 +289,5 @@ export const Game = () => {
                 </Grid>
             </Grid>
         </Box>
-    );
+    ); */
 };

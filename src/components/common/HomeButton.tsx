@@ -11,7 +11,7 @@ export const HomeButton = () => {
     const ctx = useContext(AppContext);
 
     const goHome = () => {
-        ctx.initializeQuotes();
+        ctx.launchQuiz();
         navigate('');
     }
 
