@@ -84,7 +84,7 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
         setQuotes(response.data.map((quote: QuoteDTO): Quote => ({
           id: quote.id.toString(),
           quote: { vo: quote.quoteVO, vf: quote.quoteVF },
-          movie: { vo: quote.movieVO, vf: quote.movieVO },
+          movie: { vo: quote.movieVO, vf: quote.movieVF },
           userAnswer: '',
           caracter: quote.caracter,
           actor: quote.actor,

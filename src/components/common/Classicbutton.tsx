@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 interface ClassicButtonProps {
     text?: string;
     action: () => void;
-    icon: ReactNode;
+    icon?: ReactNode;
 }
 
 export const ClassicButton = ({ text, action, icon }: ClassicButtonProps) => {
@@ -17,14 +17,11 @@ export const ClassicButton = ({ text, action, icon }: ClassicButtonProps) => {
             backgroundColor: findColor('white'),
             height: "100%",
             justifyContent: "center",
-            border: `1px solid ${findColor('black')}`,
-            '&:hover': {
-                backgroundColor: findColor('white'),
-            }
+            border: `1px solid ${findColor('grey')}`,
         }}
             onClick={() => action()}>
             {text && (<Typography sx={{ paddingRight: 1 }}>{text}</Typography>)}
-            {icon}
+            {icon && icon}
         </Button>
     );
 };

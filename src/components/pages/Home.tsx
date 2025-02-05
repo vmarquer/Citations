@@ -44,8 +44,8 @@ export const Home = () => {
             }}>
                 <Typography sx={{ marginBottom: 2, fontSize: getFontSize('title'), fontWeight: 'bold' }}>{ctx.getText('app_title')}</Typography>
                 <Grid item xs={12} sx={{ marginBottom: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
-                    <EnumSelector images={true} value={ctx.quizType} values={Quiz} onChange={handleQuizType} />
-                    <EnumSelector images={true} value={ctx.version} values={Version} onChange={handleVersion} />
+                    <EnumSelector images={true} value={ctx.quizType} values={Quiz} onChange={handleQuizType} iconSize='large' />
+                    <EnumSelector images={true} value={ctx.version} values={Version} onChange={handleVersion} iconSize='large' />
                     <ClassicButton text={ctx.getText('start')} action={() => startGame()} icon={<PlayCircleOutlineIcon />} />
                 </Grid>
             </Paper>
