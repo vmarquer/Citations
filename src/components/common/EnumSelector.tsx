@@ -8,6 +8,7 @@ interface EnumSelectorProps<T extends Record<string, string>> {
     values: T;
     onChange: (event: SelectChangeEvent) => void;
 }
+
 export const EnumSelector = <T extends Record<string, string>>({
     images = false,
     value,

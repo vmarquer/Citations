@@ -1,7 +1,6 @@
 import React, { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { Context } from '../../utils/context';
 import { Quote, QuoteDTO, Version, Versions } from "../../utils/quote";
-import Papa, { ParseResult } from "papaparse";
 import stringSimilarity from 'string-similarity';
 import { Language, texts } from "../../utils/language";
 import axios from "axios";
@@ -26,6 +25,7 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
   const [currentQuote, setCurrentquote] = useState<Quote>(defaultQuote)
   const [quotes, setQuotes] = useState<Quote[]>([])
   const [quizType, setQuizType] = useState<Quiz>(Quiz.ALL)
+  const [index, setIndex] = useState<number>(0)
 
 
   const contextValue: Context = {
@@ -34,12 +34,15 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     currentQuote: currentQuote,
     quotes: quotes,
     quizType: quizType,
+    index: index,
     updateLanguage: updateLanguage,
     updateVersion: updateVersion,
     getText: getText,
     updateQuotes: updateQuotes,
     updateQuizType: updateQuizType,
     launchQuiz: launchQuiz,
+    incrementIndex: incrementIndex,
+    updateUserAnswer: updateUserAnswer,
     computeSimilarity: computeSimilarity,
   }
 
@@ -78,7 +81,6 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     }
     axios.get(`http://localhost:8080/api/citation/${path}`)
       .then(response => {
-        console.log(response.data);
         setQuotes(response.data.map((quote: QuoteDTO): Quote => ({
           id: quote.id.toString(),
           quote: { vo: quote.quoteVO, vf: quote.quoteVF },
@@ -95,9 +97,34 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
       });
   }
 
+  function incrementIndex(): void {
+    setIndex(index + 1);
+  }
+
+  function updateUserAnswer(newAnswer: string, id: string): void {
+    setQuotes(
+      quotes.map(
+        quote => quote.id === id ? { ...quote, userAnswer: newAnswer } : quote
+      )
+    );
+    setCurrentquote(quotes.find(quote => quote.id === id) || defaultQuote);
+  }
+
   function computeSimilarity(userAnswer: string, quote: string): number {
     return stringSimilarity.compareTwoStrings(userAnswer.toLowerCase(), quote.toLowerCase());
   }
+
+  useEffect(() => {
+    if (index < quotes.length) {
+      setCurrentquote(quotes[index])
+    }
+  }, [index]);
+
+  useEffect(() => {
+    if (index === 0) {
+      setCurrentquote(quotes[0])
+    }
+  }, [quotes]);
 
   return <AppContext.Provider value={contextValue}>{props.children}</AppContext.Provider>
 }
