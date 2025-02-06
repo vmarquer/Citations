@@ -15,7 +15,7 @@ export interface Context {
     updateQuotes: (quotes: Quote[]) => void
     updateQuizType: (quizType: Quiz) => void
     launchQuiz: () => void
-    incrementIndex: () => void
+    updateIndex: (newIndex: number) => void
     updateUserAnswer: (newAnswer: string, id: string) => void
     computeSimilarity: (userAnswer: string, quote: string) => number
 }

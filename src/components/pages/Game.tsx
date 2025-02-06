@@ -46,7 +46,7 @@ export const Game = () => {
         if (ctx.index === ctx.quotes.length - 1) {
             navigate('/results')
         } else {
-            ctx.incrementIndex();
+            ctx.updateIndex(ctx.index + 1);
             setUserAnswer('');
         }
     }

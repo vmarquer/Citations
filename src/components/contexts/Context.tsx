@@ -41,7 +41,7 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
     updateQuotes: updateQuotes,
     updateQuizType: updateQuizType,
     launchQuiz: launchQuiz,
-    incrementIndex: incrementIndex,
+    updateIndex: updateIndex,
     updateUserAnswer: updateUserAnswer,
     computeSimilarity: computeSimilarity,
   }
@@ -97,8 +97,8 @@ export const AppContextProvider = (props: PropsWithChildren<{}>) => {
       });
   }
 
-  function incrementIndex(): void {
-    setIndex(index + 1);
+  function updateIndex(newIndex: number): void {
+    setIndex(newIndex);
   }
 
   function updateUserAnswer(newAnswer: string, id: string): void {

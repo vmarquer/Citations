@@ -12,9 +12,9 @@ export const Results = () => {
     return (
         <PageContainer>
             <Paper sx={{
-                width: '40vw',
+                width: '70vw',
                 minWidth: '350px',
-                height: '30vh',
+                height: '80vh',
                 minHeight: '200px',
                 padding: 4,
                 display: 'flex',
