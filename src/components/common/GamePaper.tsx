@@ -32,10 +32,14 @@ export const GamePaper = ({ index, total, difficulty, difficultyLabel, historyLa
         <Paper sx={{
             position: 'relative',
             width: '75vw',
+            minWidth: '500px',
             height: '70vh',
+            minHeight: '300px',
             padding: 1,
             display: 'flex',
             flexDirection: 'column',
+            overflowY: 'auto',
+            overflowX: 'auto',
         }}>
             <Grid item xs={12} sx={{
                 justifyContent: 'space-between',
@@ -103,8 +107,7 @@ export const GamePaper = ({ index, total, difficulty, difficultyLabel, historyLa
                 flexGrow: 1,
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 3,
+                alignItems: 'center'
             }}>
                 {children}
             </Grid>

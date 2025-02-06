@@ -53,7 +53,7 @@ export const Game = () => {
 
     return (
         <PageContainer>
-            {ctx.currentQuote && (
+            {ctx.currentQuote && ctx.quotes.length > 0 && (
                 <GamePaper
                     index={ctx.index}
                     total={ctx.quotes.length}
@@ -70,10 +70,9 @@ export const Game = () => {
                         <AnswerMode
                             quote={ctx.currentQuote}
                             version={ctx.version as Version}
-                            movieLabel={ctx.getText('movie')}
-                            caracterLabel={ctx.getText('caracter')}
-                            actorLabel={ctx.getText('actor')}
-                            userGuessLabel={ctx.getText('user_guess')}
+                            goodAnswerLabel={ctx.getText('good_answer')}
+                            badAnswerLabel={ctx.getText('bad_answer')}
+                            answerResultLabel={ctx.getText('answer_result')}
                             result={ctx.computeSimilarity(ctx.currentQuote.movie[ctx.version as Version], ctx.currentQuote.userAnswer) > 0.6}
                         />
                     )}

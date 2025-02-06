@@ -1,5 +1,7 @@
 export const getFontSize = (type: string): string => {
     switch (type) {
+        case 'big_icon':
+            return '80px'
         case 'title':
             return '48px'
         case 'large':
