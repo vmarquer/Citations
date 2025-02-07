@@ -73,7 +73,7 @@ export const Game = () => {
                             goodAnswerLabel={ctx.getText('good_answer')}
                             badAnswerLabel={ctx.getText('bad_answer')}
                             answerResultLabel={ctx.getText('answer_result')}
-                            result={ctx.computeSimilarity(ctx.currentQuote.movie[ctx.version as Version], ctx.currentQuote.userAnswer) > 0.6}
+                            result={ctx.computeSimilarity(ctx.currentQuote.movie[ctx.version as Version], userAnswer) > 0.6}
                         />
                     )}
                 </GamePaper>

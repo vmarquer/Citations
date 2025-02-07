@@ -30,13 +30,13 @@ export const AnswerMode = ({ quote, version, goodAnswerLabel, badAnswerLabel, an
                 alignItems: 'center',
                 backgroundColor: findColor("background")
             }}>
-                {getImage(quote.image, '90%', '90%')}
+                {getImage(quote.image, '95%', '95%')}
                 <ReactAudioPlayer
                     src={`audio/${version}/2.mp3`}
                     controls
                     style={{
                         marginTop: '5px',
-                        width: '90%'
+                        width: '95%'
                     }}
                 />
             </Paper>
